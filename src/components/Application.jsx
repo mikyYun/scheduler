@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 import "components/Application.scss";
-import DayList from "./DayList";
+import DayList from "./DayList.jsx";
 
 const days = [
   {
@@ -21,7 +21,7 @@ const days = [
   },
 ];
 
-export default function Application(props) {
+export default function Application() {
   const [day, setDay] = useState('Monday')
   console.log(day)
 
@@ -37,10 +37,10 @@ export default function Application(props) {
         <nav className="sidebar__menu">
           <DayList
             days={days}
-            day={day}
+            value={day}
             // how the 'setDay' works here?
             // and when this 'setDay'function should be invoked?
-            setDay={setDay}
+            onChange={setDay}
           />
         </nav>
         <img
