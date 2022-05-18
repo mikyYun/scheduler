@@ -10,6 +10,13 @@ import DayListItem from 'components/DayListItem.jsx';
 import DayList from 'components/DayList.jsx';
 import InterviewerListItem from 'components/InterviewerListItem.jsx';
 import InterviewerList from "components/InterviewerList.jsx";
+import Appointment from "components/Appointment";
+import Header from "components/Appointment/Header";
+import Empty from "components/Appointment/Empty";
+import Show from "components/Appointment/Show";
+import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
 
 const days = [
   {
@@ -133,3 +140,28 @@ storiesOf("InterviewerList", module)
       onChange={action("setInterviewer")}
     />
   ));
+
+storiesOf("Appointment", module)
+  .addParameters({
+    background: [{ name: "white", value: "#fff", default: true }]
+  })
+  .add("Appointment", () => <Appointment />)
+  .add("Appointmen with Timet", () => <Appointment time="12pm" />
+  )
+  .add("Header", () => <Header time="12px"/> )
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  .add("Show", () => <Show 
+    student="Lydia Miller-Jones" 
+    interviewer={interviewer}
+    onEdit={action("onEdit")}
+    onDelete={action("onDelete")}
+  />)
+  .add("Confirm", () => <Confirm 
+    onCancel={action("onCancel")} 
+    onConfirm={action("onConfirm")}
+  />)
+  .add("Status", () => <Status 
+    message="Deleting"/>)
+  .add("Error", () => <Error 
+    message="Could not delete appointment"
+    onClose={action("onClose")}/>)
