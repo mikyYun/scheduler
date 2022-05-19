@@ -40,11 +40,7 @@ export default function Form (props) {
           /* your code goes here */
           interviewers={props.interviewers}
           value={interviewer}
-
-
           onChange={setInterviewer} // to use in lower
-        
-        
         />
       </section>
       <section className="appointment__card-right">

@@ -11,7 +11,7 @@ export default function InterviewerList(props) {
         name={interviewer.name}
         avatar={interviewer.avatar}
         setInterviewer = {() => props.onChange(interviewer.id)}
-        selected = {props.value === interviewer.id}
+        selected = {props.value === interviewer.id} // if props.value is not exist, -> selected is always false
         
       />
     )
