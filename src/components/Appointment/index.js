@@ -5,7 +5,7 @@ import Show from './Show';
 import Empty from './Empty';
 
 export default function Appointment(props) {
-  console.log('indexPROPS', props)
+  // console.log('indexPROPS', props)
   return (
     <article className="appointment">
       <Header time={props.time}/>
