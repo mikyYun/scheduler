@@ -5,112 +5,67 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList.jsx";
 import Appointment from "./Appointment/index.js";
-// const days = [
-//   {
-//     id: 1,
-//     name: "Monday",
-//     spots: 2,
-//   },
-//   {
-//     id: 2,
-//     name: "Tuesday",
-//     spots: 5,
-//   },
-//   {
-//     id: 3,
-//     name: "Wednesday",
-//     spots: 0,
-//   },
-// ];
+import { getAppointmentsForDay } from "helpers/selectors.jsx";
 
-// const appointments = {
-//   "1": {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   "2": {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer:{
-//         id: 3,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   "3": {
-//     id: 3,
-//     time: "2pm",
-//   },
-//   "4": {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Archie Andrews",
-//       interviewer:{
-//         id: 4,
-//         name: "Cohana Roy",
-//         avatar: "https://i.imgur.com/FK8V841.jpg",
-//       }
-//     }
-//   },
-//   "5": {
-//     id: 5,
-//     time: "4pm",
-//   }
-// };
 
 export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
-    days: []
+    days: [],
+    appointments: {}
   }, []);
-  const setDay = day => setState({...state, day});
-  const setDays = days => setState({...state, days})
+  let dailyAppointments = [];
 
+  const setDay = day => setState({...state, day});
+  
 
 // use spread syntax to update object state
 // setState((prev) =>{day:prev.day, days:'newValue'})
 // setState((prev) => ...prev, dyas:'newValue')
 
   useEffect(() => {
-    
-
-
-
-    axios.get('/api/days')
-      .then((res) => {
-        // console.log('applicationRES',res)
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      // axios.get('/api/interviewers'),
+    ])
+      .then((all) => {
         setState((prev) => (
           // console.log(prev), // init state
+          // console.log('init responses',all[0].data), // init state
+          // console.log('init responses',all[1].data), // init state
+          // console.log('init responses',all[2].data), // init state
           { 
-          ...prev,
-          days:setDays(res.data)
-        }))
-        // setDays(res.data)
+            ...prev,
+            days:all[0].data,
+            // why setDays(all[0].data) didn't work??????????
+            appointments:all[1].data
+          }));
       })
       .catch((err) => {
         console.log('GET api/days error', err)
       })
   }, [])
 
-  console.log('state', state)
-  // console.log(day)
+  console.log('should be updated state', state)
+  console.log('test', getAppointmentsForDay(state, 'Tuesday'))
 
-  const appointmentList = Object.values(appointments).map((appointment) => {
-    return (
-      <Appointment
-        key={appointment.id}
-        {...appointment}
-        // id={appointment.id}
-        // time={appointment.time}
-        // interview={appointment.interview}
-      />
-    )
-  })
+    console.log(dailyAppointments)
+    dailyAppointments = getAppointmentsForDay(state, 'Tuesday');
 
+    const appointmentList = dailyAppointments.map((appointment) => {
+      console.log('appointment', appointment)
+      return (
+        <Appointment
+          key={appointment.id}
+          {...appointment}
+          // id={appointment.id}
+          // time={appointment.time}
+          // interview={appointment.interview}
+        />
+      )
+    })
+  
   return (
     <main className="layout">
       <section className="sidebar">
@@ -122,9 +77,6 @@ export default function Application() {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            // days={days}
-            // day={day}
-            // setDay={setDay}
             days={state.days}
             day={state.day}
             setDay={setDay}
