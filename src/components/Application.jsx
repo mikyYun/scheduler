@@ -24,6 +24,7 @@ export default function Application() {
 // setState((prev) => ...prev, dyas:'newValue')
 
   useEffect(() => {
+    console.log('update')
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
@@ -45,16 +46,16 @@ export default function Application() {
       .catch((err) => {
         console.log('GET api/days error', err)
       })
-  }, [])
+  }, [state.day])
 
-  console.log('should be updated state', state)
-  console.log('test', getAppointmentsForDay(state, 'Tuesday'))
+  // console.log('should be updated state', state)
+  // console.log('test', getAppointmentsForDay(state, 'Tuesday'))
 
-    console.log(dailyAppointments)
-    dailyAppointments = getAppointmentsForDay(state, 'Tuesday');
+    // console.log(dailyAppointments)
+    dailyAppointments = getAppointmentsForDay(state, state.day);
 
     const appointmentList = dailyAppointments.map((appointment) => {
-      console.log('appointment', appointment)
+      // console.log('appointment', appointment)
       return (
         <Appointment
           key={appointment.id}
