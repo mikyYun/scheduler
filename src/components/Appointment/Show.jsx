@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Show (props) {
-  // console.log('ShowPROPS', props)
+  console.log('ShowPROPS', props.interviewer)
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">

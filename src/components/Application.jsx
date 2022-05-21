@@ -5,14 +5,15 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList.jsx";
 import Appointment from "./Appointment/index.js";
-import { getAppointmentsForDay } from "helpers/selectors.jsx";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors.jsx";
 
 
 export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   }, []);
   let dailyAppointments = [];
 
@@ -28,7 +29,7 @@ export default function Application() {
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
-      // axios.get('/api/interviewers'),
+      axios.get('/api/interviewers'),
     ])
       .then((all) => {
         setState((prev) => (
@@ -39,14 +40,16 @@ export default function Application() {
           { 
             ...prev,
             days:all[0].data,
+            // days: setDays(all[0].data),
             // why setDays(all[0].data) didn't work??????????
-            appointments:all[1].data
+            appointments:all[1].data,
+            interviewers:all[2].data
           }));
       })
       .catch((err) => {
         console.log('GET api/days error', err)
       })
-  }, [state.day])
+  }, [])
 
   // console.log('should be updated state', state)
   // console.log('test', getAppointmentsForDay(state, 'Tuesday'))
@@ -56,10 +59,14 @@ export default function Application() {
 
     const appointmentList = dailyAppointments.map((appointment) => {
       // console.log('appointment', appointment)
+      const interview = getInterview(state, appointment.interview)
+      // console.log(state) 
+      console.log(interview) // null OR object
       return (
         <Appointment
           key={appointment.id}
           {...appointment}
+          interview={interview}
           // id={appointment.id}
           // time={appointment.time}
           // interview={appointment.interview}
