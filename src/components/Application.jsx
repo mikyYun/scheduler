@@ -5,10 +5,11 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList.jsx";
 import Appointment from "./Appointment/index.js";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors.jsx";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors.jsx";
 
 
 export default function Application() {
+  console.log("APPLICATION")
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -25,7 +26,6 @@ export default function Application() {
 // setState((prev) => ...prev, dyas:'newValue')
 
   useEffect(() => {
-    console.log('update')
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
@@ -40,8 +40,6 @@ export default function Application() {
           { 
             ...prev,
             days:all[0].data,
-            // days: setDays(all[0].data),
-            // why setDays(all[0].data) didn't work??????????
             appointments:all[1].data,
             interviewers:all[2].data
           }));
@@ -67,9 +65,7 @@ export default function Application() {
           key={appointment.id}
           {...appointment}
           interview={interview}
-          // id={appointment.id}
-          // time={appointment.time}
-          // interview={appointment.interview}
+          interviewers={getInterviewersForDay(state, state.day)}
         />
       )
     })
