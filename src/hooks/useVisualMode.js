@@ -4,12 +4,18 @@ export default function useVisualMode (FIRST) {
   const [mode, setMode] = useState(FIRST);
   const [history, setHistory] = useState([FIRST])
 
-  function transition (SECOND) {
+  function transition (SECOND, replace = false) {
     setMode(SECOND);
-    setHistory((prev) => ([
-      ...prev,
-      SECOND
-    ]))
+    if (replace) {
+      let historyCopy = [...history]
+      historyCopy.splice(-1, 1, mode)
+      setHistory(historyCopy)
+    } else {
+      setHistory((prev) => ([
+        ...prev,
+        SECOND
+      ]))
+    }
     // setMode(history[history.length - 1]);
     // why not Array.push() ????
   }
