@@ -61,7 +61,7 @@ export default function Application() {
       // console.log('appointment', appointment)
       const interview = getInterview(state, appointment.interview)
       // console.log(state) 
-      console.log(interview) // null OR object
+      // console.log(interview) // null OR object
       return (
         <Appointment
           key={appointment.id}
