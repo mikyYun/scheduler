@@ -51,7 +51,7 @@ export default function Application() {
   
   // function bookInterview pass each Appointment component as props
   function bookInterview (id, interview) {
-    console.log('id :',id, 'interview :', interview)
+    // console.log('id :',id, 'interview :', interview)
     // creat new appointment obj with 'id'
     const appointment = {
       ...state.appointments[id],
@@ -64,13 +64,32 @@ export default function Application() {
       [id]: {...appointment}
     };
     // console.log(state)
-    console.log(appointments)
+    // console.log(appointments)
     // update state with new appointments obj
     setState({
       ...state,
       appointments:{...appointments}
     })
     // console.log(state)
+
+    axios.put(`/api/appointments/:${id}`, {interview: interview})
+  }
+
+  function cancelInterview (id, interview) {
+    console.log(id, interview)
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: {...appointment}
+    };
+    setState({
+      ...state,
+      appointments:{...appointments}
+    })
+
   }
 
   dailyAppointments = getAppointmentsForDay(state, state.day);
@@ -84,6 +103,7 @@ export default function Application() {
         interview={interview}
         interviewers={getInterviewersForDay(state, state.day)}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     )
   })
