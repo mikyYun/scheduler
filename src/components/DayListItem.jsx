@@ -3,7 +3,7 @@ import "components/DayListItem.scss";
 import classNames from 'classnames';
 
 export default function DayListItem(props) {
-  console.log('DAYLISTITEM')
+  // console.log('DAYLISTITEM')
   
   const dayClass = classNames('day-list__item', {
     'day-list__item--selected': props.selected,

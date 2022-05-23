@@ -4,15 +4,15 @@ import InterviewerList from '../InterviewerList';
 export default function Form (props) {
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-
+  // console.log(props)
   function reset () {
-    console.log("RESET")
+    // console.log("RESET")
     setStudent('')
     setInterviewer(null)
   }
   
   function cancel () {
-    console.log("CANCEL")
+    // console.log("CANCEL")
     reset()
     props.onCancel()
   }

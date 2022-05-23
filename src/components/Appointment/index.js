@@ -7,7 +7,7 @@ import useVisualMode from 'hooks/useVisualMode';
 import Form from './Form';
 
 export default function Appointment(props) {
-  console.log('indexPROPS', props)
+  // console.log('indexPROPS', props)
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -15,7 +15,15 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   )
 
-  // props.interviewers = [];
+  // props.interviewers = [arr];
+  function save(name, interviewer) {
+    const interview ={
+      student: name,
+      interviewer: interviewer
+    };
+    transition(SHOW)
+    props.bookInterview(props.id, interview); // invoke here -> click save button
+  }
 
   return (
     <article className="appointment">
@@ -24,9 +32,14 @@ export default function Appointment(props) {
       {mode === SHOW && (
         <Show 
           student={props.interview.student}
-          interviewer={props.interview.interviewer}/>
+          interviewer={props.interview.interviewer}
+        />
       )}
-      {mode === CREATE && <Form interviewers={props.interviewers} onCancel={back}/>}
+      {mode === CREATE && <Form 
+        interviewers={props.interviewers} 
+        onCancel={back} 
+        onSave={save} 
+      />}
     </article>
   );
 }

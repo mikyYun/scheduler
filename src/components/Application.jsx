@@ -9,7 +9,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 
 
 export default function Application() {
-  console.log("APPLICATION")
+  // console.log("APPLICATION")
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -48,28 +48,47 @@ export default function Application() {
         console.log('GET api/days error', err)
       })
   }, [])
-
-  // console.log('should be updated state', state)
-  // console.log('test', getAppointmentsForDay(state, 'Tuesday'))
-
-    // console.log(dailyAppointments)
-    dailyAppointments = getAppointmentsForDay(state, state.day);
-
-    const appointmentList = dailyAppointments.map((appointment) => {
-      // console.log('appointment', appointment)
-      const interview = getInterview(state, appointment.interview)
-      // console.log(state) 
-      // console.log(interview) // null OR object
-      return (
-        <Appointment
-          key={appointment.id}
-          {...appointment}
-          interview={interview}
-          interviewers={getInterviewersForDay(state, state.day)}
-        />
-      )
-    })
   
+  // function bookInterview pass each Appointment component as props
+  function bookInterview (id, interview) {
+    console.log('id :',id, 'interview :', interview)
+    // creat new appointment obj with 'id'
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    // console.log(appointment)
+    // create new appointments obj with 'id' and new created appointment obj
+    const appointments = {
+      ...state.appointments,
+      [id]: {...appointment}
+    };
+    // console.log(state)
+    console.log(appointments)
+    // update state with new appointments obj
+    setState({
+      ...state,
+      appointments:{...appointments}
+    })
+    // console.log(state)
+  }
+
+  dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  const appointmentList = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview)
+    return (
+      <Appointment
+        key={appointment.id}
+        {...appointment}
+        interview={interview}
+        interviewers={getInterviewersForDay(state, state.day)}
+        bookInterview={bookInterview}
+      />
+    )
+  })
+
+
   return (
     <main className="layout">
       <section className="sidebar">
