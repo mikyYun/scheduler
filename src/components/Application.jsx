@@ -13,9 +13,9 @@ export default function Application() {
     bookInterview,
     cancelInterview,
   } = useApplicationData()
-
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-
+  console.log('state', state)
+  const dailyAppointments = getAppointmentsForDay(state, state.day); // dayLists
+  
   const appointmentList = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview)
     return (
@@ -29,6 +29,8 @@ export default function Application() {
       />
     )
   })
+
+  console.log('days.spots', state.days)
 
   return (
     <main className="layout">
@@ -54,6 +56,7 @@ export default function Application() {
       </section>
       <section className="schedule">
         {appointmentList}
+        <Appointment key='last' time='5pm'/>
       </section>
     </main>
   );

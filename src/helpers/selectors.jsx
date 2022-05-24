@@ -4,13 +4,14 @@ export function getAppointmentsForDay(state, day) {
   // console.log('HELPER_GETAPPOINTMENTS')
   const result = []
   const matchingDay = state.days.filter((each) => each.name === day)
+  // console.log(matchingDay)
   if (matchingDay.length > 0) {
-    const appointmentsID = matchingDay[0].appointments
+    const appointmentsID = matchingDay[0].appointments // appointmentIds
     appointmentsID.forEach((each) => {
       result.push(state.appointments[each])
     })
   }
-  // console.log(result)
+  console.log('Dayly Appointments Lists',result)
   return result
   
 };

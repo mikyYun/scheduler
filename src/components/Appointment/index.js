@@ -31,12 +31,10 @@ export default function Appointment(props) {
       interviewer: interviewer
     };
 
-    // setTimeout(() => transition(SHOW), 1000)
     transition(SAVING, true)
     props.bookInterview(props.id, interview) // invoke here -> click save button
     .then(() => {transition(SHOW)})
     .catch(() => {transition(ERROR_SAVE, true)})
-    // transition(SHOW)
   }
 
   const deleteAppointment = function(name, interviewer) {
@@ -45,8 +43,7 @@ export default function Appointment(props) {
       student: name,
       interviewer: interviewer
     };
-    // setTimeout(() => transition(EMPTY), 800)
-    // cannot be sure the timing
+    // setTimeout cannot be sure the timing
     transition(DELETING, true)
 
     props.cancelInterview(props.id, interview)
