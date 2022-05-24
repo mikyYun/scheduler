@@ -4,8 +4,10 @@ import 'components/InterviewerList.scss'
 
 export default function InterviewerList(props) {
   // console.log('INTERVIEWERLISTS')
+  console.log(props)
   const Interviewers = props.interviewers.map((interviewer) => {
-    return (
+  console.log(interviewer.id)
+  return (
       <InterviewerListItem
         key={interviewer.id}
         name={interviewer.name}
