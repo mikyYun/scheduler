@@ -10,8 +10,9 @@ export function getAppointmentsForDay(state, day) {
       result.push(state.appointments[each])
     })
   }
-  console.log(result)
+  // console.log(result)
   return result
+  
 };
 
 export function getInterview(state, interview) {

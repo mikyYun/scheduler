@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useReducer, useEffect } from 'react';
 import axios from 'axios';
 
 export default function useApplicationData() {
@@ -11,7 +11,10 @@ export default function useApplicationData() {
 
   const setDay = day => setState({ ...state, day });
 
-  function updateSpots (state) {
+  function getNewSpots (state, appointments) { // getNewSpots
+    // spots < day < days
+
+
     // console.log(state)
     // copy state and state.days.
     const newState = {...state};
@@ -20,18 +23,15 @@ export default function useApplicationData() {
     const newDay = {...state.days.find((day) => day.name === state.day)};
 
     const findDay = newDays.find((day) => day.name === state.day)
-    const appointmentIds = findDay.appointments;
-    // const appointmentIds = newDay.appointments;
-    const spots = appointmentIds.filter((appointmentId) => !state.appointments[appointmentId].interview).length
-    // console.log('spots that interview is null', spots)
+    const appointmentIds = findDay.appointments; 
+    console.log('test', appointmentIds)
+    // should be filtered in updated appointments
+    const spots = appointmentIds.filter((appointmentId) => !appointments[appointmentId].interview).length
 
     newDay.spots = spots
     const newDayIndex = state.days.findIndex((day) => day.name === state.day)
     newDays[newDayIndex] = newDay
-
-    newState.days = newDays
-    
-    return newState
+    return newDays
   }
 
   useEffect(() => {
@@ -55,7 +55,6 @@ export default function useApplicationData() {
   }, []);
 
   function bookInterview(id, interview) {
-    // console.log('id :',id, 'interview :', interview)
     // creat new appointment obj with 'id'
     const appointment = {
       ...state.appointments[id],
@@ -67,13 +66,13 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: { ...appointment }
     };
+    // console.log(getNewSpots(state, appointments))
     return axios.put(`/api/appointments/${id}`, { interview: interview })
       .then(() => setState({
         ...state,
-        ...updateSpots(state),///////////////////////////////////////////////////////
+        days: getNewSpots(state, appointments),
         appointments: { ...appointments }
       }))
-
   }
  
 
@@ -92,41 +91,11 @@ export default function useApplicationData() {
       .then(() => {
         setState({
         ...state,
-        ...updateSpots(state),/////////////////////////////////////////////////////////
+        days: getNewSpots(state, appointments),/////////////////////////////////////////////////////////
         appointments: { ...appointments },
 
         })
-      // console.log('first then',state)// not updated
       })
-      // .then(() => {
-        // function updateSpots (state) {
-        //   console.log(state)
-        //   // copy state and state.days.
-        //   const newState = {...state};
-        //   const newDays = [...state.days];
-        //   // find current day in days
-        //   const newDay = {...state.days.find((day) => day.name === state.day)};
-      
-        //   const findDay = newDays.find((day) => day.name === state.day)
-        //   const appointmentIds = findDay.appointments;
-        //   // const appointmentIds = newDay.appointments;
-        //   const spots = appointmentIds.filter((appointmentId) => !state.appointments[appointmentId].interview).length
-        //   console.log('spots that interview is null', spots)
-      
-        //   newDay.spots = spots
-        //   const newDayIndex = state.days.findIndex((day) => day.name === state.day)
-        //   newDays[newDayIndex] = newDay
-      
-        //   newState.days = newDays
-          
-        //   return newState
-        // }
-      //   // console.log(state) // next click update 'state' >> delete appointment
-      //   const updatedState = updateSpots(state)
-      //   console.log('bf',updatedState)
-      //   setState(updatedState)
-      //   console.log('aft',state)
-      // });
   }
   return { state, setDay, bookInterview, cancelInterview };
 }
