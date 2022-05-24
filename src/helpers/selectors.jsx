@@ -10,6 +10,7 @@ export function getAppointmentsForDay(state, day) {
       result.push(state.appointments[each])
     })
   }
+  console.log(result)
   return result
 };
 

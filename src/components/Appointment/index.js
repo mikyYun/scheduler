@@ -32,7 +32,7 @@ export default function Appointment(props) {
     };
 
     // setTimeout(() => transition(SHOW), 1000)
-    transition(SAVING)
+    transition(SAVING, true)
     props.bookInterview(props.id, interview) // invoke here -> click save button
     .then(() => {transition(SHOW)})
     .catch(() => {transition(ERROR_SAVE, true)})
@@ -47,11 +47,11 @@ export default function Appointment(props) {
     };
     // setTimeout(() => transition(EMPTY), 800)
     // cannot be sure the timing
-    transition(DELETING)
+    transition(DELETING, true)
 
     props.cancelInterview(props.id, interview)
     .then(() => {transition(EMPTY)})
-    .catch(() => {transition(ERROR_DELETE, true)})
+    .catch(() => {transition(ERROR_SAVE, true)})
   }
 
   function confirmDelete () {
