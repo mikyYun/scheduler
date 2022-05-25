@@ -6,7 +6,7 @@ const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 
 function reducer(state, action) {
-  console.log('',action)
+  // console.log('',action)
   switch(action.type) {
     case SET_DAY:
       return { ...state, day: action.value }

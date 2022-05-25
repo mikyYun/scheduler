@@ -13,7 +13,7 @@ export default function Application() {
     bookInterview,
     cancelInterview,
   } = useApplicationData()
-  console.log('state', state)
+  // console.log('state', state)
   const dailyAppointments = getAppointmentsForDay(state, state.day); // dayLists
   
   const appointmentList = dailyAppointments.map((appointment) => {
@@ -30,7 +30,7 @@ export default function Application() {
     )
   })
 
-  console.log('days.spots', state.days)
+  // console.log('days.spots', state.days)
 
   return (
     <main className="layout">

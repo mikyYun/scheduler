@@ -10,7 +10,7 @@ import Confirm from './Confirm';
 import Error from './Error';
 
 export default function Appointment(props) {
-  // console.log('indexPROPS', props)
+  console.log('indexPROPS', props)
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -91,6 +91,7 @@ export default function Appointment(props) {
         onCancel={back} 
         onSave={save}
         student={props.interview.student}
+        // interviewer={props.interview.interviewer.id} // edit form need interviewer id
         interviewer={props.interview.interviewer.id} // edit form need interviewer id
       />}
       {(mode === ERROR_DELETE || mode === ERROR_SAVE) && <Error message={mode} onClose={back}/>}
