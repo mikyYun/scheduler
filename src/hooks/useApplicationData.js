@@ -1,23 +1,28 @@
 import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 
+// const clientWebSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL, "scheduler")
+// console.log(process.env.REACT_APP_WEBSOCKET_URL)
+// clientWebSocket.send("Connected")
+
+
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
-const SET_SPOTS = "SET_SPOTS"
+const SET_SPOTS = "SET_SPOTS";
 
 function reducer(state, action) {
   // console.log('',action)
-  switch(action.type) {
+  switch (action.type) {
     case SET_DAY:
-      return { ...state, day: action.value }
-    
+      return { ...state, day: action.value };
+
     case SET_INTERVIEW:
       return {
         ...state,
         days: action.value.days,
         appointments: action.value.appointments
-      }
+      };
 
     case SET_APPLICATION_DATA:
       return {
@@ -25,60 +30,56 @@ function reducer(state, action) {
         days: action.value.days,
         appointments: action.value.appointments,
         interviewers: action.value.interviewers
-      }
-    
+      };
+
     case SET_SPOTS:
       return {
-        
-      }
 
-    }
+      };
+
+  }
 }
 
+// clientWebSocket.onmessage = () => {
+//   ('pong')
+// }
+// WebSocket.send('test')
+
+
 export default function useApplicationData() {
-  // const [state, setState] = useState({
-  //   day: "Monday",
-  //   days: [],
-  //   appointments: {},
-  //   interviewers: {}
-  // }, []);
 
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
     interviewers: {}
-  })
+  });
 
   // action = {type: SET_DAY, value: day}
   // dispatch(action) -> action = {something}
   // in reducer function, call by action.objectKey
-  const setDay = day => dispatch({type: SET_DAY, value: day});
+  const setDay = day => dispatch({ type: SET_DAY, value: day });
 
-  function getNewSpots (state, appointments) { // getNewSpots
+  function getNewSpots(state, appointments) { // getNewSpots
     // spots < day < days
 
-
-    // console.log(state)
     // copy state and state.days.
-    const newState = {...state};
     const newDays = [...state.days];
     // find current day in days
-    const newDay = {...state.days.find((day) => day.name === state.day)};
+    const newDay = { ...state.days.find((day) => day.name === state.day) };
 
-    const findDay = newDays.find((day) => day.name === state.day)
-    const appointmentIds = findDay.appointments; 
-    // console.log('test', appointmentIds)
+    const findDay = newDays.find((day) => day.name === state.day);
+    const appointmentIds = findDay.appointments;
     // should be filtered in updated appointments
-    const spots = appointmentIds.filter((appointmentId) => !appointments[appointmentId].interview).length
+    const spots = appointmentIds.filter((appointmentId) => !appointments[appointmentId].interview).length;
 
-    newDay.spots = spots
-    const newDayIndex = state.days.findIndex((day) => day.name === state.day)
-    newDays[newDayIndex] = newDay
-    return newDays
+    newDay.spots = spots;
+    const newDayIndex = state.days.findIndex((day) => day.name === state.day);
+    newDays[newDayIndex] = newDay;
+    return newDays;
   }
 
-    useEffect(() => {
+  useEffect(() => {
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
@@ -87,12 +88,26 @@ export default function useApplicationData() {
       .then((all) => {
         dispatch({
           type: SET_APPLICATION_DATA,
-          value: { 
+          value: {
             days: all[0].data,
             appointments: all[1].data,
             interviewers: all[2].data
           }
         });
+        // connect server after set data
+        const clientWebSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
+        clientWebSocket.onopen = () => {
+          console.log("CONNECTING");
+          clientWebSocket.send('ping');
+        };
+        clientWebSocket.onmessage = (message) => {
+          console.log(message.data);
+          const messageFromServer = message.data; // 'pong'
+          console.log('message from server =', messageFromServer);
+        };
+
+
       })
       .catch((err) => {
         console.log('GET api/days error', err);
@@ -113,7 +128,7 @@ export default function useApplicationData() {
     };
     // console.log(getNewSpots(state, appointments))
     return axios.put(`/api/appointments/${id}`, { interview: interview })
-      .then(() => dispatch({type: SET_INTERVIEW, value: {appointments, days: getNewSpots(state, appointments)}}))
+      .then(() => dispatch({ type: SET_INTERVIEW, value: { appointments, days: getNewSpots(state, appointments) } }));
   }
 
 
@@ -129,7 +144,7 @@ export default function useApplicationData() {
     };
     // console.log('before',appointments) // check after click, data deleted
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => dispatch({type: SET_INTERVIEW, value: {appointments, days: getNewSpots(state, appointments)}}))
+      .then(() => dispatch({ type: SET_INTERVIEW, value: { appointments, days: getNewSpots(state, appointments) } }));
   }
   return { state, setDay, bookInterview, cancelInterview };
 }

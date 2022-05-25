@@ -1,23 +1,23 @@
-import React from "react"
+import React from "react";
 
 import "components/Application.scss";
 import DayList from "./DayList.jsx";
 import Appointment from "./Appointment/index.js";
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors.jsx";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors.jsx";
 import useApplicationData from "hooks/useApplicationData.js";
 
 export default function Application() {
-  const {
-    state,
-    setDay,
-    bookInterview,
-    cancelInterview,
-  } = useApplicationData()
+  const { state, setDay, bookInterview, cancelInterview } =
+    useApplicationData();
   // console.log('state', state)
   const dailyAppointments = getAppointmentsForDay(state, state.day); // dayLists
-  
+
   const appointmentList = dailyAppointments.map((appointment) => {
-    const interview = getInterview(state, appointment.interview)
+    const interview = getInterview(state, appointment.interview);
     return (
       <Appointment
         key={appointment.id}
@@ -27,8 +27,8 @@ export default function Application() {
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
       />
-    )
-  })
+    );
+  });
 
   // console.log('days.spots', state.days)
 
@@ -42,11 +42,7 @@ export default function Application() {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList
-            days={state.days}
-            day={state.day}
-            setDay={setDay}
-          />
+          <DayList days={state.days} day={state.day} setDay={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -56,7 +52,7 @@ export default function Application() {
       </section>
       <section className="schedule">
         {appointmentList}
-        <Appointment key='last' time='5pm'/>
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
