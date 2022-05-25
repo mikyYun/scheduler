@@ -6,19 +6,16 @@ export default function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
 
-  // console.log(props)
   function reset() {
-    // console.log("RESET")
     setStudent("");
     setInterviewer(null);
   }
 
   function cancel() {
-    // console.log("CANCEL")
     reset();
     props.onCancel();
   }
-  console.log('test', error)
+
   // useEffect(() => {
   //   if (student === "") {
   //     setError("Student name cannot be blank")
@@ -35,14 +32,14 @@ export default function Form(props) {
       setError("Student name cannot be blank");
       return;
     }
-    if (interviewer === null) {
-      setError("Please select an interviewer");
-      return
-    }
+    // if (interviewer === null) {
+    //   setError("Please select an interviewer");
+    //   return
+    // }
+    setError("")
     props.onSave(student, interviewer);
   }
 
-  // setError("new")
   console.log(error)
   return (
     <main className="appointment__card appointment__card--create">

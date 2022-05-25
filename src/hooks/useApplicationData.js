@@ -4,6 +4,7 @@ import axios from 'axios';
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
+const SET_SPOTS = "SET_SPOTS"
 
 function reducer(state, action) {
   // console.log('',action)
@@ -25,7 +26,13 @@ function reducer(state, action) {
         appointments: action.value.appointments,
         interviewers: action.value.interviewers
       }
-  }
+    
+    case SET_SPOTS:
+      return {
+        
+      }
+
+    }
 }
 
 export default function useApplicationData() {
