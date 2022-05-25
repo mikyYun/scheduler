@@ -22,7 +22,7 @@ export default function DayListItem(props) {
     // invoke function'liProps' conditional
     // <li {...liProps}> // manipulating / distructuring = ...
 
-    <li onClick={() => props.setDay(props.name)} className={dayClass}>
+    <li onClick={() => props.setDay(props.name)} className={dayClass} data-testid='day'>
       <h2 className="text--regular">{props.name}</h2>
       <h3 className="text--light">{formatSpots()} remaining</h3>
     </li>
