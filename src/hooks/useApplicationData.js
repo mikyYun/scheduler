@@ -125,7 +125,6 @@ export default function useApplicationData() {
       .then(() => dispatch({ type: SET_INTERVIEW, value: { appointments, days: getNewSpots(state, appointments) } }));
   }
 
-
   function cancelInterview(id, interview) {
     // console.log(id, interview)
     const appointment = {

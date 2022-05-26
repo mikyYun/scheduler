@@ -38,7 +38,7 @@ describe("Application", () => {
 
     // add || update student name
     // find element has placeholder=/enter.../ which is empty input, and change the value to "Lydia...."
-    fireEvent.change(getByPlaceholderText(appointment, "Enter Student Name"), {
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Lydia Miller-Jones" }
     });
 
@@ -47,7 +47,7 @@ describe("Application", () => {
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
     // select save button and click in appointment strunture
     // fireEvent.click(getByClassName(appointment, "Save"));
-    // fireEvent.click(getByText(appointment, "Save")); // typeError: axios.default.put...
-    // console.log(prettyDOM(appointment));
+    fireEvent.click(getByText(appointment, "Save")); // typeError: axios.default.put...
+    console.log(prettyDOM(appointment));
   });
 });
