@@ -30,8 +30,6 @@ export default function Application() {
     );
   });
 
-  // console.log('days.spots', state.days)
-
   return (
     <main className="layout">
       <section className="sidebar">

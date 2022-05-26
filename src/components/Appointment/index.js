@@ -43,7 +43,7 @@ export default function Appointment(props) {
       student: name,
       interviewer: interviewer
     };
-    // setTimeout cannot be sure the timing
+    // use setTimeout cannot be sure the timing
     transition(DELETING, true);
 
     props.cancelInterview(props.id, interview)

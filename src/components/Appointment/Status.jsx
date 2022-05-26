@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-export default function Status (props) {
+export default function Status(props) {
   // console.log('STATUS')
   return (
     <main className="appointment__card appointment__card--status">

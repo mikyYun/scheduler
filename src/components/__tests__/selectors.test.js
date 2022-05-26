@@ -1,4 +1,4 @@
-import { getAppointmentsForDay, getInterview, getInterviewersForDay  } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 const state = {
   days: [
@@ -6,13 +6,13 @@ const state = {
       id: 1,
       name: "Monday",
       appointments: [1, 2, 3],
-      interviewers:[1,2]
+      interviewers: [1, 2]
     },
     {
       id: 2,
       name: "Tuesday",
       appointments: [4, 5],
-      interviewers:[1,2]
+      interviewers: [1, 2]
     }
   ],
   appointments: {
@@ -31,7 +31,7 @@ const state = {
     }
   },
   interviewers: {
-    "1": {  
+    "1": {
       "id": 1,
       "name": "Sylvia Palmer",
       "avatar": "https://i.imgur.com/LpaY82x.png"
@@ -46,7 +46,7 @@ const state = {
 // []
 test("getAppointmentsForDay returns an array", () => {
   const result = getAppointmentsForDay(state, "Monday");
-  expect(Array.isArray(result)).toBe(true); 
+  expect(Array.isArray(result)).toBe(true);
 });
 // [matching1, matching2, matching3]
 test("getAppointmentsForDay returns an array with a length matching the number of appointments for that day", () => {
@@ -109,7 +109,7 @@ test("getInterviewersForDay returns an array containing the correct interviewer 
 });
 
 test("getInterviewersForDay returns an empty array when the days data is empty", () => {
-  const result = getInterviewersForDay({days:[]}, "Monday");
+  const result = getInterviewersForDay({ days: [] }, "Monday");
   expect(result.length).toEqual(0);
 });
 

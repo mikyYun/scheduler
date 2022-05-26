@@ -39,11 +39,6 @@ function reducer(state, action) {
   }
 }
 
-// clientWebSocket.onmessage = () => {
-//   ('pong')
-// }
-// WebSocket.send('test')
-
 
 export default function useApplicationData() {
 
@@ -64,11 +59,12 @@ export default function useApplicationData() {
 
     // copy state and state.days.
     const newDays = [...state.days];
+
     // find current day in days
     const newDay = { ...state.days.find((day) => day.name === state.day) };
-
     const findDay = newDays.find((day) => day.name === state.day);
     const appointmentIds = findDay.appointments;
+    
     // should be filtered in updated appointments
     const spots = appointmentIds.filter((appointmentId) => !appointments[appointmentId].interview).length;
 
@@ -125,7 +121,6 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: { ...appointment }
     };
-    // console.log(getNewSpots(state, appointments))
     return axios.put(`/api/appointments/${id}`, { interview: interview })
       .then(() => dispatch({ type: SET_INTERVIEW, value: { appointments, days: getNewSpots(state, appointments) } }));
   }
@@ -141,7 +136,6 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: { ...appointment }
     };
-    // console.log('before',appointments) // check after click, data deleted
     return axios.delete(`/api/appointments/${id}`)
       .then(() => dispatch({ type: SET_INTERVIEW, value: { appointments, days: getNewSpots(state, appointments) } }));
   }

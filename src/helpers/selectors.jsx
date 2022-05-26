@@ -11,7 +11,6 @@ export function getAppointmentsForDay(state, day) {
       result.push(state.appointments[each])
     })
   }
-  // console.log('Dayly Appointments Lists',result)
   return result
   
 };

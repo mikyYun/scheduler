@@ -16,8 +16,6 @@ export default function useVisualMode(FIRST) {
         SECOND
       ]));
     }
-    // setMode(history[history.length - 1]);
-    // why not Array.push() ????
   }
 
   function back() {
