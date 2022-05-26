@@ -48,6 +48,6 @@ describe("Application", () => {
     // select save button and click in appointment strunture
     // fireEvent.click(getByClassName(appointment, "Save"));
     // fireEvent.click(getByText(appointment, "Save")); // typeError: axios.default.put...
-    console.log(prettyDOM(appointment));
+    // console.log(prettyDOM(appointment));
   });
 });

@@ -12,7 +12,6 @@ const SET_INTERVIEW = "SET_INTERVIEW";
 const SET_SPOTS = "SET_SPOTS";
 
 function reducer(state, action) {
-  // console.log('',action)
   switch (action.type) {
     case SET_DAY:
       return { ...state, day: action.value };
